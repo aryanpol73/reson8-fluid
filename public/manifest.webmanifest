@@ -1,0 +1,25 @@
+{
+  "name": "Reson8 — Infinite Sound, Fluid Design",
+  "short_name": "Reson8",
+  "description": "Ultra-premium, ad-free music player with fluid glass UI and ambient color.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "icons": [
+    {
+      "src": "/__l5e/assets-v1/83836326-e723-4b84-b815-a336f1503f00/reson8-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/__l5e/assets-v1/83836326-e723-4b84-b815-a336f1503f00/reson8-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

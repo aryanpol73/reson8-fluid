@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Library, Search, Sparkles, Heart, Radio } from "lucide-react";
 import { motion } from "framer-motion";
 import { playlists } from "@/lib/mock-library";
+import reson8Logo from "@/assets/reson8-logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
@@ -15,7 +16,7 @@ export function Sidebar() {
     <aside className="hidden md:flex flex-col gap-3 w-[260px] shrink-0 p-3 pr-0">
       <div className="glass-panel flex-1 flex flex-col gap-4 p-4 overflow-hidden">
         <div className="flex items-center gap-2 px-1 pt-1 pb-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-fuchsia-400 via-violet-500 to-cyan-400 shadow-[0_0_24px_-4px_rgba(180,120,255,0.7)]" />
+          <img src={reson8Logo.url} alt="Reson8" className="h-9 w-9 rounded-lg object-cover ring-1 ring-white/15 shadow-[0_0_24px_-4px_rgba(180,120,255,0.7)]" />
           <div className="leading-tight">
             <div className="text-[15px] font-semibold tracking-tight text-white">Reson8</div>
             <div className="text-[10px] uppercase tracking-[0.18em] text-white/50">
