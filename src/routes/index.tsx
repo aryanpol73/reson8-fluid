@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
       { title: "Home · Reson8" },
       { name: "description", content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8." },
       { property: "og:title", content: "Home · Reson8" },
-      { property: "og:description", content: "Your daily mixes and recent plays on Reson8." },
+      { property: "og:description", content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8." },
     ],
   }),
   component: Home,

@@ -80,20 +80,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#0a0a0f" },
-      { title: "Reson8 — Infinite Sound, Fluid Design" },
+      { title: "Home · Reson8" },
       {
         name: "description",
         content:
-          "Reson8 is an ultra-premium, ad-free music player with fluid glass UI, ambient color, and zero clutter.",
+          "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
       },
       { name: "author", content: "Reson8" },
-      { property: "og:title", content: "Reson8 — Infinite Sound, Fluid Design" },
+      { property: "og:title", content: "Home · Reson8" },
       {
         property: "og:description",
-        content: "An ad-free, glass-and-color music player that adapts to what you play.",
+        content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Home · Reson8" },
+      { name: "twitter:description", content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d201c5b-d33b-4cd0-ab1e-82369aa6e255/id-preview-eb68294c--264f0676-d311-4b96-9276-93ec474033e8.lovable.app-1785260781325.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d201c5b-d33b-4cd0-ab1e-82369aa6e255/id-preview-eb68294c--264f0676-d311-4b96-9276-93ec474033e8.lovable.app-1785260781325.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
