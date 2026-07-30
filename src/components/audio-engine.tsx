@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { usePlayer } from "@/store/player";
+import { setAudioLevel } from "@/lib/audio-level";
 
 // Singleton HTML5 audio element controlled by Zustand. Mounted once inside the
 // root layout so playback survives navigation.
@@ -13,6 +14,9 @@ export function AudioEngine() {
   const _setDuration = usePlayer((s) => s._setDuration);
   const next = usePlayer((s) => s.next);
   const lastSeekApplied = useRef(0);
+  const ctxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   // Init element once
   useEffect(() => {
@@ -57,6 +61,7 @@ export function AudioEngine() {
     const a = audioRef.current;
     if (!a || !current) return;
     if (isPlaying) {
+      ensureAnalyser();
       a.play().catch(() => {
         usePlayer.setState({ isPlaying: false });
       });
@@ -64,6 +69,74 @@ export function AudioEngine() {
       a.pause();
     }
   }, [isPlaying, current]);
+
+  // Web Audio analyser: created lazily on first play (needs a user gesture).
+  function ensureAnalyser() {
+    const a = audioRef.current;
+    if (!a || analyserRef.current) return;
+    try {
+      const Ctx =
+        window.AudioContext ??
+        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!Ctx) return;
+      const ctx = new Ctx();
+      const src = ctx.createMediaElementSource(a);
+      const analyser = ctx.createAnalyser();
+      // Smaller FFT on phones keeps the per-frame cost negligible.
+      analyser.fftSize = window.innerWidth < 768 ? 64 : 128;
+      analyser.smoothingTimeConstant = 0.82;
+      src.connect(analyser);
+      analyser.connect(ctx.destination);
+      ctxRef.current = ctx;
+      analyserRef.current = analyser;
+    } catch {
+      /* analyser unavailable (CORS / unsupported) — visuals fall back to idle */
+    }
+    ctxRef.current?.resume().catch(() => {});
+  }
+
+  // Analyser loop, only while playing.
+  useEffect(() => {
+    if (!isPlaying) {
+      setAudioLevel({ energy: 0, bass: 0, treble: 0 });
+      return;
+    }
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    let stop = false;
+    const tick = () => {
+      if (stop) return;
+      const analyser = analyserRef.current;
+      if (analyser) {
+        const bins = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(bins);
+        const third = Math.max(1, Math.floor(bins.length / 3));
+        let bass = 0;
+        let treble = 0;
+        let total = 0;
+        for (let i = 0; i < bins.length; i++) {
+          total += bins[i];
+          if (i < third) bass += bins[i];
+          else if (i > bins.length - third) treble += bins[i];
+        }
+        setAudioLevel({
+          energy: total / bins.length / 255,
+          bass: bass / third / 255,
+          treble: treble / third / 255,
+        });
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      stop = true;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      setAudioLevel({ energy: 0, bass: 0, treble: 0 });
+    };
+  }, [isPlaying]);
 
   // Volume
   useEffect(() => {
