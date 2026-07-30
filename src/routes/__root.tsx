@@ -149,12 +149,14 @@ function RootComponent() {
       <div className="flex min-h-screen w-full text-white">
         <Sidebar />
         <main className="flex-1 min-w-0 p-3 pl-0 md:p-3 md:pl-0">
-          <div className="glass-panel h-[calc(100vh-24px)] overflow-y-auto px-5 pt-5 pb-40 md:px-8 md:pt-8">
+          <div className="glass-panel h-[calc(100vh-24px)] overflow-y-auto px-5 pt-5 pb-52 md:px-8 md:pt-8">
             <Outlet />
           </div>
         </main>
       </div>
       <FloatingPlayer />
+      <MobileNav />
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }
