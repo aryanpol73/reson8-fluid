@@ -15,6 +15,8 @@ import { AmbientCanvas } from "@/components/ambient-canvas";
 import { Sidebar } from "@/components/sidebar";
 import { FloatingPlayer } from "@/components/floating-player";
 import { AudioEngine } from "@/components/audio-engine";
+import { MobileNav } from "@/components/mobile-nav";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
