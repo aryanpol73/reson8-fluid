@@ -85,3 +85,69 @@ export const getPlaylistTracks = (id: string): Track[] => {
   if (!p) return [];
   return p.trackIds.map(getTrack).filter((t): t is Track => Boolean(t));
 };
+
+// ---------------------------------------------------------------------------
+// Albums are derived from the track list so metadata stays in one place.
+export interface Album {
+  id: string;
+  name: string;
+  artist: string;
+  year: number;
+  cover: string;
+  trackIds: string[];
+}
+
+const albumYear: Record<string, number> = {
+  Chromatic: 2024,
+  "Slow Weather": 2023,
+  Cartography: 2025,
+  Refraction: 2024,
+  "After Hours": 2022,
+  Signal: 2023,
+  Tidewater: 2025,
+  Orbit: 2021,
+  Kiln: 2024,
+};
+
+export const albumId = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+export const albums: Album[] = Object.values(
+  tracks.reduce<Record<string, Album>>((acc, t) => {
+    const id = albumId(t.album);
+    if (!acc[id]) {
+      acc[id] = {
+        id,
+        name: t.album,
+        artist: t.artist,
+        year: albumYear[t.album] ?? 2024,
+        cover: t.cover,
+        trackIds: [],
+      };
+    }
+    acc[id].trackIds.push(t.id);
+    return acc;
+  }, {}),
+);
+
+export const getAlbum = (id: string) => albums.find((a) => a.id === id);
+export const getAlbumTracks = (id: string): Track[] =>
+  getAlbum(id)?.trackIds.map(getTrack).filter((t): t is Track => Boolean(t)) ?? [];
+
+export interface Artist {
+  name: string;
+  cover: string;
+  trackIds: string[];
+}
+
+export const artists: Artist[] = Object.values(
+  tracks.reduce<Record<string, Artist>>((acc, t) => {
+    if (!acc[t.artist]) acc[t.artist] = { name: t.artist, cover: t.cover, trackIds: [] };
+    acc[t.artist].trackIds.push(t.id);
+    return acc;
+  }, {}),
+);
+
+export const tracksByIds = (ids: string[]): Track[] =>
+  ids.map(getTrack).filter((t): t is Track => Boolean(t));
+
+export const coverForSeed = (seed: string) => art(seed);
