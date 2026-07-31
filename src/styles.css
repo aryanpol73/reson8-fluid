@@ -111,3 +111,65 @@
   border-color: white !important;
   box-shadow: 0 0 12px -2px rgba(255, 255, 255, 0.6) !important;
 }
+
+/* ── Accent tokens (set by settings) ───────────────────────────── */
+:root {
+  --accent-from: #b46bff;
+  --accent-to: #4fe3ea;
+}
+[data-slot="slider-range"] {
+  background: linear-gradient(90deg, var(--accent-from), var(--accent-to)) !important;
+}
+
+/* Reduced-motion preference from Settings */
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.08ms !important;
+}
+
+/* ── Light mode ────────────────────────────────────────────────────
+   The UI is built on white-alpha utilities, so light mode remaps those
+   to ink tones instead of duplicating every component. */
+html.light,
+html.light body {
+  background-color: #f2f1f7;
+  color: #14121c;
+}
+html.light .glass-panel {
+  background-color: rgb(255 255 255 / 0.6);
+  border-color: rgb(20 18 28 / 0.08);
+  box-shadow:
+    0 1px 0 0 rgb(255 255 255 / 0.9) inset,
+    0 20px 60px -24px rgb(40 30 60 / 0.28);
+}
+html.light [class*="text-white"] {
+  color: rgb(20 18 28 / 0.82);
+}
+html.light [class*="text-white/6"],
+html.light [class*="text-white/5"],
+html.light [class*="text-white/4"] {
+  color: rgb(20 18 28 / 0.6);
+}
+html.light [class*="text-white/3"],
+html.light [class*="text-white/2"] {
+  color: rgb(20 18 28 / 0.45);
+}
+html.light [class*="bg-white/"] {
+  background-color: rgb(20 18 28 / 0.06);
+}
+html.light [class*="ring-white/"] {
+  --tw-ring-color: rgb(20 18 28 / 0.12);
+}
+html.light [class*="border-white/"] {
+  border-color: rgb(20 18 28 / 0.1);
+}
+html.light .bg-white {
+  background-color: #14121c;
+}
+html.light [data-slot="slider-thumb"] {
+  background-color: #14121c !important;
+  border-color: #14121c !important;
+}
