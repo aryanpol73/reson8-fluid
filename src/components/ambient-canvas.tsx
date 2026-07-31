@@ -4,6 +4,7 @@ import { FastAverageColor } from "fast-average-color";
 import { usePlayer } from "@/store/player";
 import { useAudioLevel } from "@/lib/audio-level";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useSettings } from "@/store/settings";
 
 // Reson8 signature background: near-black matte base with interwoven cyan
 // and magenta sound-wave ripples that swirl fluidly across the canvas and
@@ -31,7 +32,12 @@ export function AmbientCanvas() {
   const current = usePlayer((s) => s.current);
   const setAmbient = usePlayer((s) => s._setAmbient);
   const isMobile = useIsMobile();
-  const { energy, bass, treble } = useAudioLevel(isMobile ? 8 : 15);
+  const audioReactive = useSettings((st) => st.audioReactive);
+  const intensity = useSettings((st) => st.ambientIntensity);
+  const live = useAudioLevel(isMobile ? 8 : 15);
+  const energy = audioReactive ? live.energy : 0;
+  const bass = audioReactive ? live.bass : 0;
+  const treble = audioReactive ? live.treble : 0;
 
   const [warm, setWarm] = useState<RGB>(DEFAULT_WARM);
   const [cool, setCool] = useState<RGB>(DEFAULT_COOL);
@@ -91,7 +97,10 @@ export function AmbientCanvas() {
   );
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#04050b]">
+    <div
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#04050b]"
+      style={{ opacity: 0.25 + intensity * 0.75 }}
+    >
       {/* Matte near-black base */}
       <div
         className="absolute inset-0"

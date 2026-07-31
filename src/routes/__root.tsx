@@ -17,6 +17,7 @@ import { FloatingPlayer } from "@/components/floating-player";
 import { AudioEngine } from "@/components/audio-engine";
 import { MobileNav } from "@/components/mobile-nav";
 import { Toaster } from "@/components/ui/sonner";
+import { AppSettingsEffects } from "@/components/app-settings-effects";
 
 function NotFoundComponent() {
   return (
@@ -146,6 +147,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AppSettingsEffects />
       <AmbientCanvas />
       <AudioEngine />
       <div className="flex min-h-screen w-full text-white">

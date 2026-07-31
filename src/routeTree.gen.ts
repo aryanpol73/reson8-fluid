@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SpotifyCallbackRouteImport } from './routes/spotify-callback'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as LikedRouteImport } from './routes/liked'
 import { Route as LibraryRouteImport } from './routes/library'
@@ -16,6 +18,16 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlaylistIdRouteImport } from './routes/playlist.$id'
 import { Route as AlbumIdRouteImport } from './routes/album.$id'
 
+const SpotifyCallbackRoute = SpotifyCallbackRouteImport.update({
+  id: '/spotify-callback',
+  path: '/spotify-callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -52,6 +64,8 @@ export interface FileRoutesByFullPath {
   '/library': typeof LibraryRoute
   '/liked': typeof LikedRoute
   '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/spotify-callback': typeof SpotifyCallbackRoute
   '/album/$id': typeof AlbumIdRoute
   '/playlist/$id': typeof PlaylistIdRoute
 }
@@ -60,6 +74,8 @@ export interface FileRoutesByTo {
   '/library': typeof LibraryRoute
   '/liked': typeof LikedRoute
   '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/spotify-callback': typeof SpotifyCallbackRoute
   '/album/$id': typeof AlbumIdRoute
   '/playlist/$id': typeof PlaylistIdRoute
 }
@@ -69,6 +85,8 @@ export interface FileRoutesById {
   '/library': typeof LibraryRoute
   '/liked': typeof LikedRoute
   '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/spotify-callback': typeof SpotifyCallbackRoute
   '/album/$id': typeof AlbumIdRoute
   '/playlist/$id': typeof PlaylistIdRoute
 }
@@ -79,16 +97,28 @@ export interface FileRouteTypes {
     | '/library'
     | '/liked'
     | '/search'
+    | '/settings'
+    | '/spotify-callback'
     | '/album/$id'
     | '/playlist/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/library' | '/liked' | '/search' | '/album/$id' | '/playlist/$id'
+  to:
+    | '/'
+    | '/library'
+    | '/liked'
+    | '/search'
+    | '/settings'
+    | '/spotify-callback'
+    | '/album/$id'
+    | '/playlist/$id'
   id:
     | '__root__'
     | '/'
     | '/library'
     | '/liked'
     | '/search'
+    | '/settings'
+    | '/spotify-callback'
     | '/album/$id'
     | '/playlist/$id'
   fileRoutesById: FileRoutesById
@@ -98,12 +128,28 @@ export interface RootRouteChildren {
   LibraryRoute: typeof LibraryRoute
   LikedRoute: typeof LikedRoute
   SearchRoute: typeof SearchRoute
+  SettingsRoute: typeof SettingsRoute
+  SpotifyCallbackRoute: typeof SpotifyCallbackRoute
   AlbumIdRoute: typeof AlbumIdRoute
   PlaylistIdRoute: typeof PlaylistIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/spotify-callback': {
+      id: '/spotify-callback'
+      path: '/spotify-callback'
+      fullPath: '/spotify-callback'
+      preLoaderRoute: typeof SpotifyCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -154,6 +200,8 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryRoute: LibraryRoute,
   LikedRoute: LikedRoute,
   SearchRoute: SearchRoute,
+  SettingsRoute: SettingsRoute,
+  SpotifyCallbackRoute: SpotifyCallbackRoute,
   AlbumIdRoute: AlbumIdRoute,
   PlaylistIdRoute: PlaylistIdRoute,
 }

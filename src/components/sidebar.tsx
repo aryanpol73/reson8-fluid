@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Library, Search, Heart, Radio, Plus, Disc3 } from "lucide-react";
+import { Home, Library, Search, Heart, Radio, Plus, Disc3, Settings as SettingsIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { playlists } from "@/lib/mock-library";
 import { useLibrary, useLibraryHydrated } from "@/store/library";
@@ -98,21 +98,33 @@ export function Sidebar() {
           </div>
         </div>
 
-        <div className="mt-auto rounded-xl bg-white/[0.04] ring-1 ring-white/10 p-3">
-          <div className="flex items-center gap-2 text-white/90 text-[13px] font-medium">
-            <Radio className="h-4 w-4" />
-            Connect Spotify
-          </div>
-          <p className="mt-1 text-[11px] leading-relaxed text-white/50">
-            Sync your real playlists and Liked Songs. Setup guide in chat.
-          </p>
-          <button
-            disabled
-            className="mt-2 w-full rounded-lg bg-white/10 px-3 py-1.5 text-[12px] font-medium text-white/70 ring-1 ring-white/15 cursor-not-allowed"
+        <div className="mt-auto flex flex-col gap-2">
+          <Link
+            to="/settings"
+            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+              path === "/settings" ? "bg-white/10 text-white" : "text-white/60 hover:text-white"
+            }`}
           >
-            Coming next
-          </button>
+            <SettingsIcon className="h-[18px] w-[18px]" />
+            <span className="font-medium">Settings</span>
+          </Link>
+          <div className="rounded-xl bg-white/[0.04] ring-1 ring-white/10 p-3">
+            <div className="flex items-center gap-2 text-white/90 text-[13px] font-medium">
+              <Radio className="h-4 w-4" />
+              Connect Spotify
+            </div>
+            <p className="mt-1 text-[11px] leading-relaxed text-white/50">
+              Sync your real playlists and Liked Songs with a secure PKCE login.
+            </p>
+            <Link
+              to="/settings"
+              className="mt-2 block w-full rounded-lg bg-white/10 px-3 py-1.5 text-center text-[12px] font-medium text-white/80 ring-1 ring-white/15 hover:bg-white/15 transition-colors"
+            >
+              Set up sync
+            </Link>
+          </div>
         </div>
+
       </div>
     </aside>
   );
