@@ -1,18 +1,19 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Search, Library, Heart } from "lucide-react";
+import { Home, Search, Library, Heart, Settings } from "lucide-react";
 
 const items = [
   { to: "/", label: "Home", icon: Home },
   { to: "/search", label: "Search", icon: Search },
   { to: "/library", label: "Library", icon: Library },
   { to: "/liked", label: "Liked", icon: Heart },
+  { to: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function MobileNav() {
   const path = useRouterState({ select: (r) => r.location.pathname });
   return (
     <nav className="md:hidden fixed inset-x-0 bottom-0 z-50 glass-panel rounded-none border-t border-white/10 px-2 pb-[env(safe-area-inset-bottom)]">
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-5">
         {items.map(({ to, label, icon: Icon }) => {
           const active = path === to;
           return (
