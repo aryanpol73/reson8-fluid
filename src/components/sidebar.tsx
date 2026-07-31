@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Library, Search, Heart, Radio, Plus, Disc3 } from "lucide-react";
+import { Home, Library, Search, Heart, Radio, Plus, Disc3, Settings as SettingsIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { playlists } from "@/lib/mock-library";
 import { useLibrary, useLibraryHydrated } from "@/store/library";
