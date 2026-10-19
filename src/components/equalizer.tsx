@@ -10,11 +10,7 @@ export function Equalizer({ playing, className = "" }: { playing: boolean; class
         <motion.span
           key={i}
           className="w-[3px] rounded-full bg-white/90"
-          animate={
-            playing
-              ? { scaleY: [0.3, peak, 0.5, peak * 0.8, 0.4] }
-              : { scaleY: 0.3 }
-          }
+          animate={playing ? { scaleY: [0.3, peak, 0.5, peak * 0.8, 0.4] } : { scaleY: 0.3 }}
           transition={{
             duration: 0.9 + i * 0.12,
             repeat: playing ? Infinity : 0,

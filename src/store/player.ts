@@ -40,7 +40,7 @@ interface PlayerState {
   _setAmbient: (rgb: [number, number, number] | null) => void;
 }
 
-const shuffleArray = <T,>(arr: T[]) => {
+const shuffleArray = <T>(arr: T[]) => {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -87,7 +87,14 @@ export const usePlayer = create<PlayerState>((set, get) => ({
   playShuffled: (tracks) => {
     const queue = shuffleArray(tracks);
     remember(queue[0] ?? null);
-    set({ queue, index: 0, current: queue[0] ?? null, isPlaying: queue.length > 0, progress: 0, shuffle: true });
+    set({
+      queue,
+      index: 0,
+      current: queue[0] ?? null,
+      isPlaying: queue.length > 0,
+      progress: 0,
+      shuffle: true,
+    });
   },
 
   addToQueue: (track) => set((s) => ({ queue: [...s.queue, track] })),

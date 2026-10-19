@@ -28,7 +28,10 @@ export const Route = createFileRoute("/playlist/$id")({
 });
 
 function PlaylistPage() {
-  const { playlist } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { playlist?: ReturnType<typeof getPlaylist> } | undefined;
+  const { id } = Route.useParams();
+  const playlist = data?.playlist ?? getPlaylist(id);
+  if (!playlist) throw notFound();
   const tracks = getPlaylistTracks(playlist.id);
   const setQueue = usePlayer((s) => s.setQueue);
   const totalSec = tracks.reduce((a, t) => a + t.duration, 0);
@@ -81,7 +84,9 @@ function PlaylistPage() {
           <div>Title</div>
           <div>Album</div>
           <div className="hidden md:block">Artist</div>
-          <div className="text-right"><Clock className="inline h-3.5 w-3.5" /></div>
+          <div className="text-right">
+            <Clock className="inline h-3.5 w-3.5" />
+          </div>
         </div>
         <div className="mt-2 flex flex-col gap-0.5">
           {tracks.map((t, i) => (

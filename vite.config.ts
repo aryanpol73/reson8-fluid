@@ -29,6 +29,15 @@ export default defineConfig({
           skipWaiting: true,
           runtimeCaching: [
             {
+              // TERMS COMPLIANCE & LICENSING ENFORCEMENT:
+              // Provider API queries and audio streams MUST NEVER be cached offline.
+              // Jamendo API Terms Clause 3.3 strictly forbids offline caching or storage.
+              // Audius streams are stream-only with no offline caching rights granted.
+              urlPattern: ({ url }) =>
+                url.hostname.includes("audius.co") || url.hostname.includes("jamendo.com"),
+              handler: "NetworkOnly",
+            },
+            {
               // HTML navigations must stay fresh but survive offline.
               urlPattern: ({ request }) => request.mode === "navigate",
               handler: "NetworkFirst",
@@ -40,6 +49,7 @@ export default defineConfig({
             },
             {
               // Album art + logos: cache-first so the library looks complete offline.
+              // Exclude direct provider audio streams
               urlPattern: ({ request }) => request.destination === "image",
               handler: "CacheFirst",
               options: {
@@ -63,7 +73,12 @@ export default defineConfig({
               },
             },
             {
-              urlPattern: ({ request }) => request.destination === "audio",
+              // Audio caching: Cache-First ONLY for local/demo audio.
+              // Strictly exclude any Audius or Jamendo domains from audio caching.
+              urlPattern: ({ url, request }) =>
+                request.destination === "audio" &&
+                !url.hostname.includes("audius.co") &&
+                !url.hostname.includes("jamendo.com"),
               handler: "CacheFirst",
               options: {
                 cacheName: "reson8-audio",

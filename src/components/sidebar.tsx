@@ -1,7 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Library, Search, Heart, Radio, Plus, Disc3, Settings as SettingsIcon } from "lucide-react";
+import {
+  Home,
+  Library,
+  Search,
+  Heart,
+  Radio,
+  Plus,
+  Disc3,
+  Settings as SettingsIcon,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import { playlists } from "@/lib/mock-library";
+import { useCatalog } from "@/lib/mock-library";
 import { useLibrary, useLibraryHydrated } from "@/store/library";
 import { CreatePlaylistDialog } from "@/components/create-playlist-dialog";
 import reson8Logo from "@/assets/reson8-logo.png.asset.json";
@@ -17,6 +26,7 @@ export function Sidebar() {
   const hydrated = useLibraryHydrated();
   const userPlaylists = useLibrary((s) => s.playlists);
   const likedCount = useLibrary((s) => s.liked.length);
+  const { playlists } = useCatalog();
 
   return (
     <aside className="hidden md:flex flex-col gap-3 w-[260px] shrink-0 p-3 pr-0">
@@ -29,7 +39,9 @@ export function Sidebar() {
           />
           <div className="leading-tight">
             <div className="text-[15px] font-semibold tracking-tight text-white">Reson8</div>
-            <div className="text-[10px] uppercase tracking-[0.18em] text-white/50">Infinite Sound</div>
+            <div className="text-[10px] uppercase tracking-[0.18em] text-white/50">
+              Infinite Sound
+            </div>
           </div>
         </div>
 
@@ -90,11 +102,27 @@ export function Sidebar() {
           <div className="flex flex-col gap-0.5 overflow-y-auto pr-1 -mr-1 max-h-[calc(100vh-420px)] scrollbar-none">
             {hydrated &&
               userPlaylists.map((p) => (
-                <SidebarPlaylist key={p.id} id={p.id} name={p.name} cover={p.cover} label="Your playlist" active={path === `/playlist/${p.id}`} />
+                <SidebarPlaylist
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  cover={p.cover}
+                  label="Your playlist"
+                  active={path === `/playlist/${p.id}`}
+                />
               ))}
-            {playlists.map((p) => (
-              <SidebarPlaylist key={p.id} id={p.id} name={p.name} cover={p.cover} label="Playlist" active={path === `/playlist/${p.id}`} />
-            ))}
+            {playlists
+              .filter((p) => !userPlaylists.some((up) => up.id === p.id))
+              .map((p) => (
+                <SidebarPlaylist
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  cover={p.cover}
+                  label="Playlist"
+                  active={path === `/playlist/${p.id}`}
+                />
+              ))}
           </div>
         </div>
 
@@ -124,7 +152,6 @@ export function Sidebar() {
             </Link>
           </div>
         </div>
-
       </div>
     </aside>
   );

@@ -8,7 +8,10 @@ export const Route = createFileRoute("/spotify-callback")({
       { title: "Connecting Spotify · Reson8" },
       { name: "description", content: "Finishing the secure Spotify connection for Reson8." },
       { property: "og:title", content: "Connecting Spotify · Reson8" },
-      { property: "og:description", content: "Finishing the secure Spotify connection for Reson8." },
+      {
+        property: "og:description",
+        content: "Finishing the secure Spotify connection for Reson8.",
+      },
     ],
   }),
   component: SpotifyCallback,

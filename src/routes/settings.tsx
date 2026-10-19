@@ -15,6 +15,8 @@ import {
   Link2,
   LogOut,
   RefreshCw,
+  ExternalLink,
+  ShieldCheck,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
@@ -23,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { useSettings, useSettingsHydrated, ACCENTS, type ThemeMode } from "@/store/settings";
 import { useLibrary } from "@/store/library";
 import { getTrack } from "@/lib/mock-library";
+import { LocalMusicManager } from "@/components/local-music-manager";
 import { clearOfflineCaches, estimateOfflineUsage, prefetchForOffline } from "@/lib/pwa";
 import {
   beginSpotifyLogin,
@@ -243,10 +246,7 @@ function SettingsPage() {
       </Section>
 
       <Section icon={WifiOff} title="Offline" subtitle="Keep the player usable without a network">
-        <Row
-          label="Offline mode"
-          hint="Caches the app shell, last-opened playlists and album art"
-        >
+        <Row label="Offline mode" hint="Caches the app shell, last-opened playlists and album art">
           <Switch checked={s.offlineMode} onCheckedChange={(v) => s.set("offlineMode", v)} />
         </Row>
         <Row label="Data saver" hint="Lower-resolution artwork on mobile data">
@@ -279,7 +279,11 @@ function SettingsPage() {
         </p>
       </Section>
 
+      <LocalMusicManager />
+
       <SpotifySection />
+
+      <AboutCreditsSection />
 
       <div className="pb-4">
         <Button
@@ -318,11 +322,7 @@ function SpotifySection() {
   const connected = Boolean(profile);
 
   return (
-    <Section
-      icon={Link2}
-      title="Spotify"
-      subtitle="Sync your playlists and library metadata"
-    >
+    <Section icon={Link2} title="Spotify" subtitle="Sync your playlists and library metadata">
       {connected ? (
         <>
           <Row
@@ -390,6 +390,72 @@ function SpotifySection() {
           </div>
         </>
       )}
+    </Section>
+  );
+}
+
+function AboutCreditsSection() {
+  return (
+    <Section
+      icon={ShieldCheck}
+      title="About & Music Provider Credits"
+      subtitle="Independent, ad-free listening with licensed online streaming"
+    >
+      <div className="space-y-4 text-xs leading-relaxed text-white/70">
+        <p>
+          <strong className="text-white">Reson8</strong> is an independent, ad-free music
+          progressive web application designed for personal listening. Reson8 serves no
+          advertisements, no sponsored recommendations, and includes no analytics or user tracking.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+          <div className="rounded-xl p-3.5 bg-white/[0.04] border border-white/10 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-white">Jamendo Music</span>
+              <a
+                href="https://www.jamendo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:underline inline-flex items-center gap-1"
+              >
+                jamendo.com <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+            <p className="text-[11px] text-white/60">
+              Music sourced from Jamendo is provided under Creative Commons licensing. Streaming is
+              strictly non-commercial and authorized via the Jamendo API v3.0. In compliance with
+              Jamendo API Terms of Use (Clause 3.3), online tracks are stream-only and are not
+              cached or stored offline.
+            </p>
+          </div>
+
+          <div className="rounded-xl p-3.5 bg-white/[0.04] border border-white/10 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-white">Audius</span>
+              <a
+                href="https://audius.co"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:underline inline-flex items-center gap-1"
+              >
+                audius.co <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+            <p className="text-[11px] text-white/60">
+              Music sourced from Audius is provided through the decentralized Audius Protocol.
+              Tracks streamed via Audius belong to their respective creators and community artists.
+              Offline saving is limited to local files on your device; provider audio is
+              stream-only.
+            </p>
+          </div>
+        </div>
+
+        <p className="text-[11px] text-white/45 border-t border-white/10 pt-3">
+          Non-commercial use notice: Reson8 is built solely for personal, non-commercial listening.
+          All artist rights, trademarks, and copyright remain the property of their respective
+          creators and rightsholders.
+        </p>
+      </div>
     </Section>
   );
 }

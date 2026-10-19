@@ -10,9 +10,15 @@ export const Route = createFileRoute("/liked")({
   head: () => ({
     meta: [
       { title: "Liked Songs · Reson8" },
-      { name: "description", content: "Every track you've saved on Reson8, in one fluid collection." },
+      {
+        name: "description",
+        content: "Every track you've saved on Reson8, in one fluid collection.",
+      },
       { property: "og:title", content: "Liked Songs · Reson8" },
-      { property: "og:description", content: "Every track you've saved on Reson8, in one fluid collection." },
+      {
+        property: "og:description",
+        content: "Every track you've saved on Reson8, in one fluid collection.",
+      },
     ],
   }),
   component: LikedPage,
@@ -67,9 +73,7 @@ function LikedPage() {
       )}
 
       {hydrated && tracks.length === 0 ? (
-        <p className="text-sm text-white/50">
-          Tap the heart on any track and it will land here.
-        </p>
+        <p className="text-sm text-white/50">Tap the heart on any track and it will land here.</p>
       ) : (
         <div>
           <TrackListHeader />

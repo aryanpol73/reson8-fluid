@@ -43,7 +43,9 @@ export const useLibrary = create<LibraryState>()(
 
       createPlaylist: (name, description = "", trackIds = []) => {
         const id = uid();
-        const cover = trackIds[0] ? (getTrack(trackIds[0])?.cover ?? coverForSeed(id)) : coverForSeed(id);
+        const cover = trackIds[0]
+          ? (getTrack(trackIds[0])?.cover ?? coverForSeed(id))
+          : coverForSeed(id);
         set((s) => ({
           playlists: [
             { id, name, description, cover, trackIds, createdAt: Date.now() },
@@ -60,8 +62,7 @@ export const useLibrary = create<LibraryState>()(
           ),
         })),
 
-      deletePlaylist: (id) =>
-        set((s) => ({ playlists: s.playlists.filter((p) => p.id !== id) })),
+      deletePlaylist: (id) => set((s) => ({ playlists: s.playlists.filter((p) => p.id !== id) })),
 
       addToPlaylist: (id, trackId) =>
         set((s) => ({

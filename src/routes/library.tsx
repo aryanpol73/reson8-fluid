@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play, Disc3, Trash2, Heart } from "lucide-react";
 import { toast } from "sonner";
-import { playlists, albums, artists, getPlaylistTracks, tracksByIds } from "@/lib/mock-library";
+import { getPlaylistTracks, tracksByIds, useCatalog } from "@/lib/mock-library";
 import { useLibrary, useLibraryHydrated, playlistTracks } from "@/store/library";
 import { usePlayer } from "@/store/player";
 import { CreatePlaylistDialog } from "@/components/create-playlist-dialog";
@@ -14,7 +14,10 @@ export const Route = createFileRoute("/library")({
       { title: "Your Library · Reson8" },
       { name: "description", content: "Playlists, albums and artists you've saved on Reson8." },
       { property: "og:title", content: "Your Library · Reson8" },
-      { property: "og:description", content: "Playlists, albums and artists you've saved on Reson8." },
+      {
+        property: "og:description",
+        content: "Playlists, albums and artists you've saved on Reson8.",
+      },
     ],
   }),
   component: LibraryPage,
@@ -28,6 +31,7 @@ function LibraryPage() {
   const userPlaylists = useLibrary((s) => s.playlists);
   const deletePlaylist = useLibrary((s) => s.deletePlaylist);
   const setQueue = usePlayer((s) => s.setQueue);
+  const { playlists, albums, artists } = useCatalog();
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "playlists", label: "Playlists" },
@@ -40,7 +44,9 @@ function LibraryPage() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-[11px] uppercase tracking-[0.24em] text-white/50">Library</p>
-          <h1 className="mt-1 text-3xl md:text-4xl font-semibold tracking-tight">Your Collection</h1>
+          <h1 className="mt-1 text-3xl md:text-4xl font-semibold tracking-tight">
+            Your Collection
+          </h1>
         </div>
         <CreatePlaylistDialog />
       </header>
@@ -66,10 +72,21 @@ function LibraryPage() {
         <div className="flex flex-col gap-1">
           {hydrated &&
             userPlaylists.map((p) => (
-              <div key={p.id} className="group flex items-center gap-4 rounded-xl px-3 py-2 hover:bg-white/[0.05] transition-colors">
-                <Link to="/playlist/$id" params={{ id: p.id }} className="flex min-w-0 flex-1 items-center gap-4">
+              <div
+                key={p.id}
+                className="group flex items-center gap-4 rounded-xl px-3 py-2 hover:bg-white/[0.05] transition-colors"
+              >
+                <Link
+                  to="/playlist/$id"
+                  params={{ id: p.id }}
+                  className="flex min-w-0 flex-1 items-center gap-4"
+                >
                   {p.cover ? (
-                    <img src={p.cover} alt="" className="h-14 w-14 rounded-lg object-cover ring-1 ring-white/10" />
+                    <img
+                      src={p.cover}
+                      alt=""
+                      className="h-14 w-14 rounded-lg object-cover ring-1 ring-white/10"
+                    />
                   ) : (
                     <span className="grid h-14 w-14 place-items-center rounded-lg bg-white/10">
                       <Disc3 className="h-5 w-5 text-white/50" />
@@ -111,8 +128,16 @@ function LibraryPage() {
               transition={{ delay: i * 0.03, duration: 0.3 }}
               className="group flex items-center gap-4 rounded-xl px-3 py-2 hover:bg-white/[0.05] transition-colors"
             >
-              <Link to="/playlist/$id" params={{ id: p.id }} className="flex min-w-0 flex-1 items-center gap-4">
-                <img src={p.cover} alt="" className="h-14 w-14 rounded-lg object-cover ring-1 ring-white/10" />
+              <Link
+                to="/playlist/$id"
+                params={{ id: p.id }}
+                className="flex min-w-0 flex-1 items-center gap-4"
+              >
+                <img
+                  src={p.cover}
+                  alt=""
+                  className="h-14 w-14 rounded-lg object-cover ring-1 ring-white/10"
+                />
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-medium">{p.name}</div>
                   <div className="truncate text-xs text-white/50">{p.description}</div>
@@ -143,7 +168,11 @@ function LibraryPage() {
             >
               <Link to="/album/$id" params={{ id: a.id }} className="block group">
                 <div className="relative overflow-hidden rounded-xl ring-1 ring-white/10">
-                  <img src={a.cover} alt="" className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img
+                    src={a.cover}
+                    alt=""
+                    className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
                 <div className="mt-3 truncate text-sm font-medium">{a.name}</div>
                 <div className="truncate text-xs text-white/50">

@@ -53,7 +53,9 @@ export async function prefetchForOffline(urls: string[]) {
 export async function clearOfflineCaches() {
   if (typeof caches === "undefined") return;
   const keys = await caches.keys();
-  await Promise.allSettled(keys.filter((k) => k.startsWith("reson8-")).map((k) => caches.delete(k)));
+  await Promise.allSettled(
+    keys.filter((k) => k.startsWith("reson8-")).map((k) => caches.delete(k)),
+  );
 }
 
 export async function estimateOfflineUsage() {

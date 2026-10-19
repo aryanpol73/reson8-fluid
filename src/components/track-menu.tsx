@@ -34,13 +34,7 @@ export function LikeButton({ track, className = "" }: { track: Track; className?
   );
 }
 
-export function TrackMenu({
-  track,
-  inPlaylistId,
-}: {
-  track: Track;
-  inPlaylistId?: string;
-}) {
+export function TrackMenu({ track, inPlaylistId }: { track: Track; inPlaylistId?: string }) {
   const playlists = useLibrary((s) => s.playlists);
   const addToPlaylist = useLibrary((s) => s.addToPlaylist);
   const removeFromPlaylist = useLibrary((s) => s.removeFromPlaylist);

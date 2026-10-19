@@ -20,7 +20,9 @@ import { QueuePanel } from "./queue-panel";
 function fmt(t: number) {
   if (!Number.isFinite(t) || t < 0) return "0:00";
   const m = Math.floor(t / 60);
-  const s = Math.floor(t % 60).toString().padStart(2, "0");
+  const s = Math.floor(t % 60)
+    .toString()
+    .padStart(2, "0");
   return `${m}:${s}`;
 }
 
@@ -128,7 +130,11 @@ export function FloatingPlayer() {
                     repeat !== "off" ? "text-[#4fe3ea]" : "text-white/50 hover:text-white"
                   }`}
                 >
-                  {repeat === "one" ? <Repeat1 className="h-4 w-4" /> : <Repeat className="h-4 w-4" />}
+                  {repeat === "one" ? (
+                    <Repeat1 className="h-4 w-4" />
+                  ) : (
+                    <Repeat className="h-4 w-4" />
+                  )}
                 </button>
               </div>
               <div className="hidden md:flex items-center gap-2 w-full">
@@ -161,8 +167,16 @@ export function FloatingPlayer() {
                 <ListMusic className="h-4 w-4" />
               </button>
               <div className="flex items-center gap-2 w-[140px]">
-                <button onClick={toggleMute} aria-label="Mute" className="text-white/55 hover:text-white transition-colors">
-                  {muted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                <button
+                  onClick={toggleMute}
+                  aria-label="Mute"
+                  className="text-white/55 hover:text-white transition-colors"
+                >
+                  {muted || volume === 0 ? (
+                    <VolumeX className="h-4 w-4" />
+                  ) : (
+                    <Volume2 className="h-4 w-4" />
+                  )}
                 </button>
                 <Slider
                   value={[muted ? 0 : volume * 100]}
@@ -178,7 +192,9 @@ export function FloatingPlayer() {
 
           {/* Mobile progress bar */}
           <div className="mt-2 flex md:hidden items-center gap-2">
-            <span className="tabular-nums text-[10px] text-white/45 w-8 text-right">{fmt(progress)}</span>
+            <span className="tabular-nums text-[10px] text-white/45 w-8 text-right">
+              {fmt(progress)}
+            </span>
             <Slider
               value={[progress]}
               min={0}

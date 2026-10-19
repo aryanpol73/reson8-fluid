@@ -54,10 +54,19 @@ export function QueuePanel() {
                 }`}
               >
                 <GripVertical className="h-3.5 w-3.5 text-white/20" />
-                <button onClick={() => jumpTo(i)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
-                  <img src={t.cover} alt="" className="h-9 w-9 rounded object-cover ring-1 ring-white/10" />
+                <button
+                  onClick={() => jumpTo(i)}
+                  className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                >
+                  <img
+                    src={t.cover}
+                    alt=""
+                    className="h-9 w-9 rounded object-cover ring-1 ring-white/10"
+                  />
                   <div className="min-w-0">
-                    <div className={`truncate text-[13px] ${i === index ? "text-white font-medium" : "text-white/85"}`}>
+                    <div
+                      className={`truncate text-[13px] ${i === index ? "text-white font-medium" : "text-white/85"}`}
+                    >
                       {t.title}
                     </div>
                     <div className="truncate text-[11px] text-white/45">{t.artist}</div>

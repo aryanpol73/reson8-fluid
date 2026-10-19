@@ -34,7 +34,7 @@ Core Architecture & PWA Setup:
 
 Visuals & UI/UX (The "Better Than Spotify" Edge):
 
-1. Ambient Color Canvas: The app background features a subtle, blurred mesh gradient that fluidly animates to match the dominant colors of the currently playing track's album art. 
+1. Ambient Color Canvas: The app background features a subtle, blurred mesh gradient that fluidly animates to match the dominant colors of the currently playing track's album art.
 
 2. Glassmorphism Panels: The sidebar and bottom player use backdrop-blur filters so the ambient background colors softly bleed through.
 

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reson8 Phase 0.5 — Verified Feasibility Spike</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #070b19; color: #f1f5f9; padding: 24px; line-height: 1.5; }
+    h1 { color: #38bdf8; }
+    .card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+    button { background: #38bdf8; color: #000; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 600; cursor: pointer; margin-right: 8px; margin-bottom: 8px; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    input { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px; color: #fff; width: 320px; }
+    #log { background: #030712; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 13px; height: 350px; overflow-y: auto; white-space: pre-wrap; color: #a5f3fc; }
+    audio { width: 100%; margin-top: 10px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 6px; }
+    .badge-no { background: #ef4444; color: #fff; }
+    .badge-yes { background: #10b981; color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Reson8 Phase 0.5 — Verified Feasibility Spike</h1>
+  <p>Tests current Audius (api.audius.co) & Jamendo APIs, CORS, download gating, IndexedDB blob persistence, and audio seeking.</p>
+
+  <div class="card">
+    <h3>1. Provider Search & Permission Verification</h3>
+    <input id="query" value="ambient" />
+    <button id="btnSearchAudius">Search Audius (api.audius.co)</button>
+    <button id="btnSearchJamendo">Search Jamendo (api.jamendo.com)</button>
+    <div id="trackInfo" style="margin-top: 10px; font-size: 14px; color: #94a3b8;">No track selected</div>
+  </div>
+
+  <div class="card">
+    <h3>2. Streaming Playback</h3>
+    <audio id="streamAudio" controls crossorigin="anonymous"></audio>
+  </div>
+
+  <div class="card">
+    <h3>3. Official Download Path & Permission Enforcement</h3>
+    <p style="font-size: 12px; color: #94a3b8;">
+      Rule: Never bypass creator licensing or stream-to-file capture. Only tracks marked with download permission may be downloaded.
+    </p>
+    <button id="btnTestOfficialDownload" disabled>Test Official Download Path</button>
+    <button id="btnFetchStreamBlob" disabled>Test Stream CORS Fetch (Streamable Check)</button>
+  </div>
+
+  <div class="card">
+    <h3>4. IndexedDB Offline Storage & Seeking Spike</h3>
+    <button id="btnSaveIDB" disabled>Store in IndexedDB (Eligibility Gated)</button>
+    <button id="btnLoadIDB">Load from IndexedDB & Play</button>
+    <button id="btnSeek" disabled>Seek to 20s</button>
+    <audio id="offlineAudio" controls></audio>
+  </div>
+
+  <h3>Diagnostics Log</h3>
+  <div id="log"></div>
+
+  <script>
+    const logEl = document.getElementById('log');
+    function log(msg) {
+      console.log(msg);
+      logEl.textContent += `[${new Date().toISOString().slice(11, 19)}] ${msg}\n`;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    window.addEventListener('error', (e) => {
+      log(`BROWSER WINDOW ERROR: ${e.message} at ${e.filename}:${e.lineno}`);
+    });
+
+    let selectedTrack = null;
+    let selectedProvider = null;
+    let downloadedBlob = null;
+    let isEligibleForDownload = false;
+    const DB_NAME = 'reson8_spike_verified_db';
+    const STORE_NAME = 'offline_tracks';
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore(STORE_NAME);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    document.getElementById('btnSearchAudius').onclick = async () => {
+      const q = document.getElementById('query').value;
+      log(`[Audius] Searching api.audius.co/v1/tracks/search?query=${encodeURIComponent(q)}...`);
+      try {
+        const res = await fetch(`https://api.audius.co/v1/tracks/search?query=${encodeURIComponent(q)}`);
+        log(`[Audius] Search HTTP Status: ${res.status} ${res.statusText}`);
+        const json = await res.json();
+        const tracks = json.data || [];
+        log(`[Audius] Returned ${tracks.length} tracks.`);
+        if (tracks.length > 0) {
+          selectedTrack = tracks[0];
+          selectedProvider = 'audius';
+          isEligibleForDownload = Boolean(selectedTrack.is_downloadable);
+          document.getElementById('trackInfo').innerHTML = `
+            <strong>Title:</strong> ${selectedTrack.title}<br>
+            <strong>Artist:</strong> ${selectedTrack.user?.name || 'Unknown'}<br>
+            <strong>Track ID:</strong> ${selectedTrack.id}<br>
+            <strong>License:</strong> ${selectedTrack.license || 'All Rights Reserved'}<br>
+            <strong>Download Allowed:</strong> <span class="badge ${isEligibleForDownload ? 'badge-yes' : 'badge-no'}">${isEligibleForDownload ? 'YES' : 'NO (is_downloadable: false)'}</span>
+          `;
+          const streamUrl = `https://api.audius.co/v1/tracks/${selectedTrack.id}/stream`;
+          document.getElementById('streamAudio').src = streamUrl;
+          document.getElementById('btnTestOfficialDownload').disabled = false;
+          document.getElementById('btnFetchStreamBlob').disabled = false;
+          document.getElementById('btnSaveIDB').disabled = !isEligibleForDownload;
+          log(`[Audius] Stream URL set: ${streamUrl}`);
+          log(`[Audius] Download eligibility: ${isEligibleForDownload ? 'ELIGIBLE' : 'INELIGIBLE (Download forbidden by creator)'}`);
+        }
+      } catch (err) {
+        log(`[Audius] Search error: ${err.message}`);
+      }
+    };
+
+    document.getElementById('btnSearchJamendo').onclick = async () => {
+      log(`[Jamendo] Probing api.jamendo.com/v3.0/tracks/?client_id=56d30c95...`);
+      try {
+        const res = await fetch(`https://api.jamendo.com/v3.0/tracks/?client_id=56d30c95&format=json&limit=5&namesearch=ambient`);
+        log(`[Jamendo] Search HTTP Status: ${res.status} ${res.statusText}`);
+        const json = await res.json();
+        if (json.headers?.status === 'failed') {
+          log(`[Jamendo API Error]: Code ${json.headers.code} - ${json.headers.error_message}`);
+          document.getElementById('trackInfo').innerHTML = `
+            <span style="color: #f87171;">Jamendo Error: ${json.headers.error_message}</span>
+          `;
+        }
+      } catch (err) {
+        log(`[Jamendo] Fetch/CORS error: ${err.message}`);
+      }
+    };
+
+    document.getElementById('btnTestOfficialDownload').onclick = async () => {
+      if (!selectedTrack) return;
+      const dlUrl = `https://api.audius.co/v1/tracks/${selectedTrack.id}/download`;
+      log(`[Audius] Probing official download endpoint: ${dlUrl}...`);
+      try {
+        const res = await fetch(dlUrl);
+        log(`[Audius] Official download HTTP Status: ${res.status} ${res.statusText}`);
+        if (!res.ok) {
+          const body = await res.text();
+          log(`[Audius Download Rejected]: ${body}`);
+        } else {
+          downloadedBlob = await res.blob();
+          log(`[Audius Download Succeeded]: Received ${(downloadedBlob.size / 1024 / 1024).toFixed(2)} MB`);
+          document.getElementById('btnSaveIDB').disabled = false;
+        }
+      } catch (err) {
+        log(`[Audius] Official download failed: ${err.message}`);
+      }
+    };
+
+    document.getElementById('btnFetchStreamBlob').onclick = async () => {
+      if (!selectedTrack) return;
+      const streamUrl = `https://api.audius.co/v1/tracks/${selectedTrack.id}/stream`;
+      log(`[Audius] Fetching stream as Blob: ${streamUrl}...`);
+      try {
+        const res = await fetch(streamUrl);
+        log(`[Audius Stream Fetch] Status: ${res.status}`);
+        const blob = await res.blob();
+        log(`[Audius Stream Fetch] Succeeded! Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB, Type: ${blob.type}`);
+        if (!isEligibleForDownload) {
+          log(`[GATING POLICY] Track is marked is_downloadable: false. Refusing to store stream blob in offline storage!`);
+        }
+      } catch (err) {
+        log(`[Audius Stream Fetch] CORS/Network error: ${err.message}`);
+      }
+    };
+
+    document.getElementById('btnSaveIDB').onclick = async () => {
+      if (!isEligibleForDownload) {
+        log(`[GATING ENFORCED] Track "${selectedTrack?.title}" is NOT eligible for download. Save aborted.`);
+        alert('Download forbidden: Creator has not granted download permissions for this track.');
+        return;
+      }
+      if (!downloadedBlob) {
+        log(`No authorized downloaded blob present.`);
+        return;
+      }
+      log(`Storing authorized track blob into IndexedDB...`);
+      const db = await openDB();
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      tx.objectStore(STORE_NAME).put({
+        id: selectedTrack.id,
+        title: selectedTrack.title,
+        blob: downloadedBlob,
+        downloadedAt: Date.now()
+      }, selectedTrack.id);
+      await new Promise(r => tx.oncomplete = r);
+      log(`IndexedDB store successful!`);
+    };
+
+    document.getElementById('btnLoadIDB').onclick = async () => {
+      log(`Loading track from IndexedDB...`);
+      try {
+        const db = await openDB();
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).getAll();
+        const items = await new Promise((r, j) => {
+          req.onsuccess = () => r(req.result);
+          req.onerror = () => j(req.error);
+        });
+        if (items.length === 0) {
+          log(`IndexedDB is empty.`);
+          return;
+        }
+        const item = items[0];
+        log(`Retrieved "${item.title}" (${(item.blob.size / 1024 / 1024).toFixed(2)} MB). Creating Object URL...`);
+        const url = URL.createObjectURL(item.blob);
+        const audio = document.getElementById('offlineAudio');
+        audio.src = url;
+        audio.onloadedmetadata = () => {
+          log(`Offline Audio metadata loaded! Duration: ${audio.duration.toFixed(1)}s`);
+          document.getElementById('btnSeek').disabled = false;
+        };
+        audio.onseeked = () => {
+          log(`Seek completed! Audio currentTime is now: ${audio.currentTime.toFixed(1)}s`);
+        };
+        await audio.play();
+        log(`Offline audio playing successfully!`);
+      } catch (err) {
+        log(`Load/Play error: ${err.message}`);
+      }
+    };
+
+    document.getElementById('btnSeek').onclick = () => {
+      const audio = document.getElementById('offlineAudio');
+      log(`Seeking to 20.0s (current: ${audio.currentTime.toFixed(1)}s)...`);
+      audio.currentTime = 20;
+    };
+  </script>
+</body>
+</html>

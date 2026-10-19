@@ -1,16 +1,28 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
-import { playlists, tracks, recentlyPlayed, getTrack, getPlaylistTracks } from "@/lib/mock-library";
+import {
+  getTrack,
+  getPlaylistTracks,
+  useCatalog,
+  type Playlist,
+  type Track,
+} from "@/lib/mock-library";
 import { usePlayer } from "@/store/player";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Home · Reson8" },
-      { name: "description", content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8." },
+      {
+        name: "description",
+        content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
+      },
       { property: "og:title", content: "Home · Reson8" },
-      { property: "og:description", content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8." },
+      {
+        property: "og:description",
+        content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
+      },
     ],
   }),
   component: Home,
@@ -18,15 +30,14 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const setQueue = usePlayer((s) => s.setQueue);
+  const { playlists, tracks, recentlyPlayed } = useCatalog();
   const recents = recentlyPlayed.map((id) => getTrack(id)!).filter(Boolean);
 
   return (
     <div className="space-y-10">
       <header className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.24em] text-white/50">
-            Good evening
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.24em] text-white/50">Good evening</p>
           <h1 className="mt-1 text-3xl md:text-4xl font-semibold tracking-tight bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">
             Infinite Sound, Fluid Design.
           </h1>
@@ -73,7 +84,7 @@ function Home() {
   );
 }
 
-function PlaylistShelf({ title, items }: { title: string; items: typeof playlists }) {
+function PlaylistShelf({ title, items }: { title: string; items: Playlist[] }) {
   const setQueue = usePlayer((s) => s.setQueue);
   return (
     <section>
@@ -121,7 +132,7 @@ function PlaylistShelf({ title, items }: { title: string; items: typeof playlist
   );
 }
 
-function TrackShelf({ title, items }: { title: string; items: typeof tracks }) {
+function TrackShelf({ title, items }: { title: string; items: Track[] }) {
   const playTrack = usePlayer((s) => s.playTrack);
   return (
     <section>

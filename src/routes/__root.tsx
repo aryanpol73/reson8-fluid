@@ -18,6 +18,7 @@ import { AudioEngine } from "@/components/audio-engine";
 import { MobileNav } from "@/components/mobile-nav";
 import { Toaster } from "@/components/ui/sonner";
 import { AppSettingsEffects } from "@/components/app-settings-effects";
+import { OfflineIndicator } from "@/components/offline-indicator";
 
 function NotFoundComponent() {
   return (
@@ -25,9 +26,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-white">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-white">Page not found</h2>
-        <p className="mt-2 text-sm text-white/60">
-          The page you're looking for doesn't exist.
-        </p>
+        <p className="mt-2 text-sm text-white/60">The page you're looking for doesn't exist.</p>
         <div className="mt-6">
           <Link
             to="/"
@@ -41,7 +40,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -86,8 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Home · Reson8" },
       {
         name: "description",
-        content:
-          "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
+        content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
       },
       { name: "author", content: "Reson8" },
       { property: "og:title", content: "Home · Reson8" },
@@ -98,9 +96,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Home · Reson8" },
-      { name: "twitter:description", content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d201c5b-d33b-4cd0-ab1e-82369aa6e255/id-preview-eb68294c--264f0676-d311-4b96-9276-93ec474033e8.lovable.app-1785260781325.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d201c5b-d33b-4cd0-ab1e-82369aa6e255/id-preview-eb68294c--264f0676-d311-4b96-9276-93ec474033e8.lovable.app-1785260781325.png" },
+      {
+        name: "twitter:description",
+        content: "Your daily mixes, recent plays, and made-for-you rotations on Reson8.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d201c5b-d33b-4cd0-ab1e-82369aa6e255/id-preview-eb68294c--264f0676-d311-4b96-9276-93ec474033e8.lovable.app-1785260781325.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d201c5b-d33b-4cd0-ab1e-82369aa6e255/id-preview-eb68294c--264f0676-d311-4b96-9276-93ec474033e8.lovable.app-1785260781325.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -150,6 +159,7 @@ function RootComponent() {
       <AppSettingsEffects />
       <AmbientCanvas />
       <AudioEngine />
+      <OfflineIndicator />
       <div className="flex min-h-screen w-full text-white">
         <Sidebar />
         <main className="flex-1 min-w-0 p-3 pl-0 md:p-3 md:pl-0">

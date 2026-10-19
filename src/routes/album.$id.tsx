@@ -32,7 +32,10 @@ export const Route = createFileRoute("/album/$id")({
 });
 
 function AlbumPage() {
-  const { album } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { album?: ReturnType<typeof getAlbum> } | undefined;
+  const { id } = Route.useParams();
+  const album = data?.album ?? getAlbum(id);
+  if (!album) throw notFound();
   const tracks = getAlbumTracks(album.id);
   const setQueue = usePlayer((s) => s.setQueue);
   const playShuffled = usePlayer((s) => s.playShuffled);
