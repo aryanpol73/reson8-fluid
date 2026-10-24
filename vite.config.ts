@@ -16,6 +16,7 @@ export default defineConfig({
   vite: {
     plugins: [
       VitePWA({
+        outDir: ".output/public",
         registerType: "autoUpdate",
         injectRegister: null,
         filename: "sw.js",
@@ -23,7 +24,7 @@ export default defineConfig({
         manifest: false,
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,woff2}"],
-          navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//],
+          navigateFallback: null,
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,

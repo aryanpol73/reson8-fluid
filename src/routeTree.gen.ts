@@ -9,39 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SpotifyCallbackRouteImport } from './routes/spotify-callback'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as LikedRouteImport } from './routes/liked'
-import { Route as LibraryRouteImport } from './routes/library'
-import { Route as GoogleCallbackRouteImport } from './routes/google-callback'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PlaylistIdRouteImport } from './routes/playlist.$id'
+import { Route as GoogleCallbackRouteImport } from './routes/google-callback'
+import { Route as LibraryRouteImport } from './routes/library'
+import { Route as LikedRouteImport } from './routes/liked'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SpotifyCallbackRouteImport } from './routes/spotify-callback'
 import { Route as AlbumIdRouteImport } from './routes/album.$id'
+import { Route as PlaylistIdRouteImport } from './routes/playlist.$id'
 
-const SpotifyCallbackRoute = SpotifyCallbackRouteImport.update({
-  id: '/spotify-callback',
-  path: '/spotify-callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LikedRoute = LikedRouteImport.update({
-  id: '/liked',
-  path: '/liked',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LibraryRoute = LibraryRouteImport.update({
-  id: '/library',
-  path: '/library',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoogleCallbackRoute = GoogleCallbackRouteImport.update({
@@ -49,19 +29,39 @@ const GoogleCallbackRoute = GoogleCallbackRouteImport.update({
   path: '/google-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlaylistIdRoute = PlaylistIdRouteImport.update({
-  id: '/playlist/$id',
-  path: '/playlist/$id',
+const LikedRoute = LikedRouteImport.update({
+  id: '/liked',
+  path: '/liked',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpotifyCallbackRoute = SpotifyCallbackRouteImport.update({
+  id: '/spotify-callback',
+  path: '/spotify-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlbumIdRoute = AlbumIdRouteImport.update({
   id: '/album/$id',
   path: '/album/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaylistIdRoute = PlaylistIdRouteImport.update({
+  id: '/playlist/$id',
+  path: '/playlist/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -149,39 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/spotify-callback': {
-      id: '/spotify-callback'
-      path: '/spotify-callback'
-      fullPath: '/spotify-callback'
-      preLoaderRoute: typeof SpotifyCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/liked': {
-      id: '/liked'
-      path: '/liked'
-      fullPath: '/liked'
-      preLoaderRoute: typeof LikedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/library': {
-      id: '/library'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof LibraryRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google-callback': {
@@ -191,18 +163,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/playlist/$id': {
-      id: '/playlist/$id'
-      path: '/playlist/$id'
-      fullPath: '/playlist/$id'
-      preLoaderRoute: typeof PlaylistIdRouteImport
+    '/liked': {
+      id: '/liked'
+      path: '/liked'
+      fullPath: '/liked'
+      preLoaderRoute: typeof LikedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/spotify-callback': {
+      id: '/spotify-callback'
+      path: '/spotify-callback'
+      fullPath: '/spotify-callback'
+      preLoaderRoute: typeof SpotifyCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/album/$id': {
@@ -210,6 +203,13 @@ declare module '@tanstack/react-router' {
       path: '/album/$id'
       fullPath: '/album/$id'
       preLoaderRoute: typeof AlbumIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playlist/$id': {
+      id: '/playlist/$id'
+      path: '/playlist/$id'
+      fullPath: '/playlist/$id'
+      preLoaderRoute: typeof PlaylistIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
