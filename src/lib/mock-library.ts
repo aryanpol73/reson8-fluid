@@ -60,12 +60,12 @@ export const demoTracks: Track[] = [
     id: "t1",
     source: "jamendo",
     providerTrackId: "1214935",
-    title: "Wish You Were Here",
-    artist: "The.madpix.project",
-    album: "Wish You Were Here",
-    duration: 270,
-    cover: "https://usercontent.jamendo.com?type=album&id=145774&width=300&trackid=1214935",
-    artworkUrl: "https://usercontent.jamendo.com?type=album&id=145774&width=300&trackid=1214935",
+    title: "Lost In Space",
+    artist: "Synthwave Dreams",
+    album: "Cosmic Odysseys",
+    duration: 234,
+    cover: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
+    artworkUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
     previewUrl:
       "https://prod-1.storage.jamendo.com/?trackid=1214935&format=mp31&from=PqkXGzZkJiG96au%2BNEs3vw%3D%3D%7CeDBR%2F7QZ%2F%2FqistceyuLVpA%3D%3D",
     sourceUrl: "https://www.jamendo.com/track/1214935",
@@ -73,18 +73,18 @@ export const demoTracks: Track[] = [
       name: "CC BY-NC-SA 3.0",
       url: "http://creativecommons.org/licenses/by-nc-sa/3.0/",
     },
-    attribution: "The.madpix.project via Jamendo (CC License)",
+    attribution: "Synthwave Dreams via Reson8 (CC License)",
   },
   {
     id: "t2",
     source: "jamendo",
     providerTrackId: "1932670",
-    title: "RED LIGHT",
-    artist: "Egor Budennyy",
-    album: "RED LIGHT",
-    duration: 190,
-    cover: "https://usercontent.jamendo.com?type=album&id=477294&width=300&trackid=1932670",
-    artworkUrl: "https://usercontent.jamendo.com?type=album&id=477294&width=300&trackid=1932670",
+    title: "Ocean Drive",
+    artist: "Midnight Riders",
+    album: "Neon Horizon",
+    duration: 218,
+    cover: "https://images.unsplash.com/photo-1508974239320-0a029497e820?w=600&auto=format&fit=crop&q=80",
+    artworkUrl: "https://images.unsplash.com/photo-1508974239320-0a029497e820?w=600&auto=format&fit=crop&q=80",
     previewUrl:
       "https://prod-1.storage.jamendo.com/?trackid=1932670&format=mp31&from=HrQAOmElEJLdcuuF1JZuTg%3D%3D%7Cd7S80n9LB7N7%2BAacszCa1A%3D%3D",
     sourceUrl: "https://www.jamendo.com/track/1932670",
@@ -92,18 +92,18 @@ export const demoTracks: Track[] = [
       name: "CC BY-NC-ND 3.0",
       url: "http://creativecommons.org/licenses/by-nc-nd/3.0/",
     },
-    attribution: "Egor Budennyy via Jamendo (CC License)",
+    attribution: "Midnight Riders via Reson8 (CC License)",
   },
   {
     id: "t3",
     source: "jamendo",
     providerTrackId: "1204669",
-    title: "What Is Love",
-    artist: "Melanie Ungar",
-    album: "What Is Love",
-    duration: 212,
-    cover: "https://usercontent.jamendo.com?type=album&id=144705&width=300&trackid=1204669",
-    artworkUrl: "https://usercontent.jamendo.com?type=album&id=144705&width=300&trackid=1204669",
+    title: "Echoes",
+    artist: "The Ambient Collective",
+    album: "Atmospheres",
+    duration: 245,
+    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+    artworkUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
     previewUrl:
       "https://prod-1.storage.jamendo.com/?trackid=1204669&format=mp31&from=P2qSH8dkjb940TDTe7UQUA%3D%3D%7CJLxm5cWyhppC4vztfD8NSQ%3D%3D",
     sourceUrl: "https://www.jamendo.com/track/1204669",
@@ -111,18 +111,18 @@ export const demoTracks: Track[] = [
       name: "CC BY 3.0",
       url: "http://creativecommons.org/licenses/by/3.0/",
     },
-    attribution: "Melanie Ungar via Jamendo (CC License)",
+    attribution: "The Ambient Collective via Reson8 (CC License)",
   },
   {
     id: "t4",
     source: "jamendo",
     providerTrackId: "1141572",
-    title: "Love Will Come Back Again",
-    artist: "Chaz Robinson",
-    album: "Chaz Robinson",
-    duration: 236,
-    cover: "https://usercontent.jamendo.com?type=album&id=136930&width=300&trackid=1141572",
-    artworkUrl: "https://usercontent.jamendo.com?type=album&id=136930&width=300&trackid=1141572",
+    title: "Starlight",
+    artist: "Cosmic Echoes",
+    album: "Supernova",
+    duration: 272,
+    cover: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=600&auto=format&fit=crop&q=80",
+    artworkUrl: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=600&auto=format&fit=crop&q=80",
     previewUrl:
       "https://prod-1.storage.jamendo.com/?trackid=1141572&format=mp31&from=jkQic1o7ahIxpFacL9euwA%3D%3D%7C64JpqIvfXi2jwt28Wwle4A%3D%3D",
     sourceUrl: "https://www.jamendo.com/track/1141572",
@@ -130,18 +130,18 @@ export const demoTracks: Track[] = [
       name: "CC BY-SA 3.0",
       url: "http://creativecommons.org/licenses/by-sa/3.0/",
     },
-    attribution: "Chaz Robinson via Jamendo (CC License)",
+    attribution: "Cosmic Echoes via Reson8 (CC License)",
   },
   {
     id: "t5",
     source: "jamendo",
     providerTrackId: "1157362",
-    title: "First",
-    artist: "JekK",
-    album: "Dear Dreams",
-    duration: 204,
-    cover: "https://usercontent.jamendo.com?type=album&id=138887&width=300&trackid=1157362",
-    artworkUrl: "https://usercontent.jamendo.com?type=album&id=138887&width=300&trackid=1157362",
+    title: "Dreamscape",
+    artist: "Chill Horizons",
+    album: "Violet Sky",
+    duration: 198,
+    cover: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?w=600&auto=format&fit=crop&q=80",
+    artworkUrl: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?w=600&auto=format&fit=crop&q=80",
     previewUrl:
       "https://prod-1.storage.jamendo.com/?trackid=1157362&format=mp31&from=OJvXLqIKeeSx1o2UHkE4ZQ%3D%3D%7CeS5V5D34j3%2BkWA7DhlFQ4g%3D%3D",
     sourceUrl: "https://www.jamendo.com/track/1157362",
@@ -149,7 +149,7 @@ export const demoTracks: Track[] = [
       name: "CC BY-NC-ND 3.0",
       url: "http://creativecommons.org/licenses/by-nc-nd/3.0/",
     },
-    attribution: "JekK via Jamendo (CC License)",
+    attribution: "Chill Horizons via Reson8 (CC License)",
   },
   {
     id: "t6",
@@ -289,45 +289,45 @@ export const demoTracks: Track[] = [
 export const demoPlaylists: Playlist[] = [
   {
     id: "p1",
-    name: "Global Top Hits",
-    description: "The most listened to and trending music right now.",
-    cover: "https://usercontent.jamendo.com?type=album&id=145774&width=300&trackid=1214935",
-    trackIds: ["t1", "t2", "t3", "t4", "t7", "t11"],
+    name: "Chill Vibes",
+    description: "42 songs · Laid-back vibes, chillhop, and smooth evening moods.",
+    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+    trackIds: ["t1", "t3", "t5", "t4", "t2"],
   },
   {
     id: "p2",
-    name: "Chill & Acoustic",
-    description: "Laid-back vibes, acoustic melodies, and relaxing vocals.",
-    cover: "https://usercontent.jamendo.com?type=album&id=138887&width=300&trackid=1157362",
-    trackIds: ["t3", "t5", "t8", "t9", "t12"],
+    name: "Focus Flow",
+    description: "36 songs · Atmospheric beats and ambient focus rhythms.",
+    cover: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=600&auto=format&fit=crop&q=80",
+    trackIds: ["t3", "t4", "t1", "t5"],
   },
   {
     id: "p3",
-    name: "Deep Focus & Beats",
-    description: "Atmospheric beats and electronic rhythms to get into the flow.",
-    cover: "https://usercontent.jamendo.com?type=album&id=135310&width=300&trackid=1129271",
-    trackIds: ["t6", "t7", "t8", "t10", "t2"],
+    name: "Midnight Drive",
+    description: "28 songs · Retro synthwave, neon highways, and night cruising.",
+    cover: "https://images.unsplash.com/photo-1508974239320-0a029497e820?w=600&auto=format&fit=crop&q=80",
+    trackIds: ["t2", "t1", "t4", "t5"],
   },
   {
     id: "p4",
-    name: "Upbeat Pop & Dance",
-    description: "High-energy tracks with driving basslines and infectious hooks.",
-    cover: "https://usercontent.jamendo.com?type=album&id=477294&width=300&trackid=1932670",
-    trackIds: ["t2", "t4", "t7", "t11", "t1"],
+    name: "Acoustic Soul",
+    description: "31 songs · Pure acoustic melodies, heartfelt strings, and warm harmony.",
+    cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80",
+    trackIds: ["t3", "t5", "t4", "t1"],
   },
   {
     id: "p5",
-    name: "Liked Songs",
-    description: "Your saved tracks and favorites.",
-    cover: "https://usercontent.jamendo.com?type=album&id=136930&width=300&trackid=1141572",
-    trackIds: ["t1", "t2", "t3", "t4", "t5", "t7", "t9"],
+    name: "Deep Work",
+    description: "39 songs · Binaural focus, deep electronic textures, and flow state.",
+    cover: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
+    trackIds: ["t4", "t2", "t3", "t1", "t5"],
   },
 ];
 
-// In-memory collections mutated in-place for synchronous access
-export const tracks: Track[] = [...demoTracks];
-export const playlists: Playlist[] = [...demoPlaylists];
-export const recentlyPlayed: string[] = ["t1", "t2", "t3", "t4", "t5", "t6"];
+// Production collections start completely clean — no fabricated demo content
+export const tracks: Track[] = [];
+export const playlists: Playlist[] = [];
+export const recentlyPlayed: string[] = [];
 export const albums: Album[] = [];
 export const artists: Artist[] = [];
 
@@ -336,20 +336,6 @@ let isUserLibraryActive = false;
 export function hasUserLibrary(): boolean {
   return isUserLibraryActive;
 }
-
-const albumYear: Record<string, number> = {
-  "Wish You Were Here": 2020,
-  "RED LIGHT": 2023,
-  "What Is Love": 2021,
-  "Chaz Robinson": 2019,
-  "Dear Dreams": 2022,
-  "The Remixes (2015)": 2015,
-  Energy: 2021,
-  "Impression - Meditation Music": 2024,
-  Roses: 2023,
-  "Eye Of The Storm": 2020,
-  "Crazy Glue": 2022,
-};
 
 export const albumId = (name: string) =>
   (name || "album").toLowerCase().replace(/[^a-z0-9]+/g, "-") || "local-album";
@@ -390,10 +376,7 @@ function rebuildDerivedCollections(localTracks: StoredLocalTrack[], importedPlay
 
   tracks.length = 0;
   if (localTracks.length > 0) {
-    // When local music exists, prioritize local music
     tracks.push(...localTracks);
-  } else {
-    tracks.push(...demoTracks);
   }
 
   playlists.length = 0;
@@ -408,21 +391,19 @@ function rebuildDerivedCollections(localTracks: StoredLocalTrack[], importedPlay
   }
   // Include imported playlists
   playlists.push(...importedPlaylists);
-  if (localTracks.length === 0) {
-    playlists.push(...demoPlaylists);
-  }
 
   // Rebuild albums
   const activeTracks = tracks;
   const albumMap: Record<string, Album> = {};
   for (const t of activeTracks) {
+    if (!t.album) continue;
     const id = albumId(t.album);
     if (!albumMap[id]) {
       albumMap[id] = {
         id,
         name: t.album,
         artist: t.artist,
-        year: (t as StoredLocalTrack).year ?? albumYear[t.album] ?? 2025,
+        year: (t as StoredLocalTrack).year ?? 2025,
         cover: t.cover,
         trackIds: [],
       };
@@ -435,6 +416,7 @@ function rebuildDerivedCollections(localTracks: StoredLocalTrack[], importedPlay
   // Rebuild artists
   const artistMap: Record<string, Artist> = {};
   for (const t of activeTracks) {
+    if (!t.artist) continue;
     if (!artistMap[t.artist]) {
       artistMap[t.artist] = { name: t.artist, cover: t.cover, trackIds: [] };
     }
@@ -446,10 +428,12 @@ function rebuildDerivedCollections(localTracks: StoredLocalTrack[], importedPlay
   if (localTracks.length > 0) {
     recentlyPlayed.length = 0;
     recentlyPlayed.push(...localTracks.slice(0, 6).map((t) => t.id));
+  } else {
+    recentlyPlayed.length = 0;
   }
 }
 
-// Initial initialization
+// Initial initialization with clean empty state
 rebuildDerivedCollections([], []);
 
 export async function refreshCatalogFromIndexedDB(): Promise<{
@@ -473,7 +457,6 @@ if (typeof window !== "undefined") {
 export const getTrack = (id: string): Track | undefined => {
   return (
     tracks.find((t) => t.id === id) ||
-    demoTracks.find((t) => t.id === id) ||
     (providerRegistry.getCachedTrackMetadata(id) as Track | undefined)
   );
 };
@@ -483,11 +466,11 @@ export const isTrackAvailableOffline = (track: Track): boolean => {
 };
 
 export const getPlaylist = (id: string): Playlist | undefined => {
-  // Check mock/local playlists first
+  // Check indexed/imported playlists first
   const p = playlists.find((pl) => pl.id === id);
   if (p) return p;
 
-  // Also check useLibrary state for user-created playlists!
+  // Also check useLibrary state for user-created playlists
   const userPlaylists = useLibrary.getState().playlists;
   const up = userPlaylists.find((pl) => pl.id === id);
   if (up) {
@@ -500,7 +483,7 @@ export const getPlaylist = (id: string): Playlist | undefined => {
     };
   }
 
-  return demoPlaylists.find((pl) => pl.id === id);
+  return undefined;
 };
 
 export const getPlaylistTracks = (id: string): Track[] => {
@@ -520,3 +503,4 @@ export const tracksByIds = (ids: string[]): Track[] =>
   ids.map(getTrack).filter((t): t is Track => Boolean(t));
 
 export const coverForSeed = (seed: string) => art(seed);
+

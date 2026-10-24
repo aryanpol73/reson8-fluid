@@ -16,9 +16,12 @@ import { Sidebar } from "@/components/sidebar";
 import { FloatingPlayer } from "@/components/floating-player";
 import { AudioEngine } from "@/components/audio-engine";
 import { MobileNav } from "@/components/mobile-nav";
-import { Toaster } from "@/components/ui/sonner";
 import { AppSettingsEffects } from "@/components/app-settings-effects";
 import { OfflineIndicator } from "@/components/offline-indicator";
+import { GoogleAuthDialog } from "@/components/google-auth-dialog";
+import { GoogleAuthGate } from "@/components/google-auth-gate";
+import { useAuth, useAuthHydrated } from "@/store/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -116,11 +119,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "icon",
         type: "image/png",
-        href: "/__l5e/assets-v1/83836326-e723-4b84-b815-a336f1503f00/reson8-logo.png",
+        href: "/favicon.png",
       },
       {
         rel: "apple-touch-icon",
-        href: "/__l5e/assets-v1/83836326-e723-4b84-b815-a336f1503f00/reson8-logo.png",
+        href: "/apple-touch-icon.png",
       },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -128,6 +131,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        src: "https://accounts.google.com/gsi/client",
+        async: true,
+        defer: true,
       },
     ],
   }),
@@ -153,23 +163,43 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const currentUser = useAuth((s) => s.currentUser);
+  const hydrated = useAuthHydrated();
+
+  const isAuthenticated = hydrated && Boolean(currentUser);
 
   return (
     <QueryClientProvider client={queryClient}>
       <AppSettingsEffects />
       <AmbientCanvas />
-      <AudioEngine />
-      <OfflineIndicator />
-      <div className="flex min-h-screen w-full text-white">
-        <Sidebar />
-        <main className="flex-1 min-w-0 p-3 pl-0 md:p-3 md:pl-0">
-          <div className="glass-panel h-[calc(100vh-24px)] overflow-y-auto px-5 pt-5 pb-52 md:px-8 md:pt-8">
-            <Outlet />
-          </div>
-        </main>
+
+      {/* When not signed in via Google, show full-screen Google OAuth Gate immediately */}
+      {!isAuthenticated && <GoogleAuthGate />}
+
+      {/* Main app shell - always keeps Outlet mounted for TanStack Router, but hidden until authenticated */}
+      <div
+        className={
+          isAuthenticated
+            ? "contents"
+            : "invisible pointer-events-none h-0 w-0 overflow-hidden"
+        }
+        aria-hidden={!isAuthenticated}
+      >
+        <AudioEngine />
+        <OfflineIndicator />
+        <div className="flex min-h-screen w-full text-white">
+          <Sidebar />
+          <main className="flex-1 min-w-0 p-3 pl-0 md:p-3 md:pl-0">
+            <div className="glass-panel h-[calc(100vh-24px)] overflow-y-auto px-5 pt-5 pb-52 md:px-8 md:pt-8">
+              <Outlet />
+            </div>
+          </main>
+        </div>
+        <FloatingPlayer />
+        <MobileNav />
+        <GoogleAuthDialog />
       </div>
-      <FloatingPlayer />
-      <MobileNav />
+
       <Toaster position="top-center" />
     </QueryClientProvider>
   );

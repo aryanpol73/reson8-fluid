@@ -51,7 +51,7 @@ function fmtDuration(t: number): string {
   return `${m}:${s}`;
 }
 
-export function SearchPage() {
+function SearchPage() {
   const [q, setQ] = useState("");
   const [tab, setTab] = useState<FilterTab>("all");
   const [onlineResults, setOnlineResults] = useState<Track[]>([]);

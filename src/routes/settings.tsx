@@ -17,12 +17,16 @@ import {
   RefreshCw,
   ExternalLink,
   ShieldCheck,
+  Copy,
+  Check,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSettings, useSettingsHydrated, ACCENTS, type ThemeMode } from "@/store/settings";
+import { useAuth } from "@/store/auth";
+import { GoogleIcon } from "@/components/google-auth-dialog";
 import { useLibrary } from "@/store/library";
 import { getTrack } from "@/lib/mock-library";
 import { LocalMusicManager } from "@/components/local-music-manager";
@@ -279,6 +283,8 @@ function SettingsPage() {
         </p>
       </Section>
 
+      <GoogleAccountSection />
+
       <LocalMusicManager />
 
       <SpotifySection />
@@ -297,6 +303,63 @@ function SettingsPage() {
         </Button>
       </div>
     </div>
+  );
+}
+
+function GoogleAccountSection() {
+  const currentUser = useAuth((s) => s.currentUser);
+  const setAuthDialogOpen = useAuth((s) => s.setAuthDialogOpen);
+  const signOut = useAuth((s) => s.signOut);
+
+  return (
+    <Section
+      icon={GoogleIcon}
+      title="Google Account"
+      subtitle="Your personal music library, custom playlists, and offline downloads"
+    >
+      {currentUser ? (
+        <>
+          <Row
+            label={currentUser.name}
+            hint={`${currentUser.email} · ${currentUser.musicTaste}`}
+          >
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="secondary" onClick={() => setAuthDialogOpen(true)}>
+                Switch / Manage
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  signOut();
+                  toast.success("Signed out of Google account");
+                }}
+              >
+                <LogOut className="h-4 w-4" /> Sign out
+              </Button>
+            </div>
+          </Row>
+
+          <Row
+            label="Offline Downloads"
+            hint={`${currentUser.downloadedTrackIds.length} tracks saved to your local offline library`}
+          >
+            <Button size="sm" variant="outline" onClick={() => setAuthDialogOpen(true)}>
+              View Account Stats
+            </Button>
+          </Row>
+        </>
+      ) : (
+        <Row
+          label="No Google Account Connected"
+          hint="Sign in with your Google account to access your personal playlists and music"
+        >
+          <Button size="sm" onClick={() => setAuthDialogOpen(true)} className="flex items-center gap-2">
+            <GoogleIcon className="h-4 w-4" /> Sign in with Google
+          </Button>
+        </Row>
+      )}
+    </Section>
   );
 }
 

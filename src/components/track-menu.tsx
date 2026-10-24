@@ -1,4 +1,4 @@
-import { Heart, MoreHorizontal, ListPlus, ListEnd, Plus, Trash2 } from "lucide-react";
+import { Heart, MoreHorizontal, ListPlus, ListEnd, Plus, Trash2, Download } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
 import type { Track } from "@/lib/mock-library";
 import { useLibrary } from "@/store/library";
 import { usePlayer } from "@/store/player";
+import { downloadTrack } from "@/lib/download-manager";
 
 export function LikeButton({ track, className = "" }: { track: Track; className?: string }) {
   const liked = useLibrary((s) => s.liked.includes(track.id));
@@ -69,6 +70,13 @@ export function TrackMenu({ track, inPlaylistId }: { track: Track; inPlaylistId?
           }}
         >
           <ListEnd className="mr-2 h-4 w-4" /> Add to queue
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            void downloadTrack(track);
+          }}
+        >
+          <Download className="mr-2 h-4 w-4 text-cyan-400" /> Download MP3
         </DropdownMenuItem>
         <DropdownMenuSeparator className="bg-white/10" />
         <DropdownMenuSub>

@@ -118,6 +118,75 @@ export const useLibrary = create<LibraryState>()(
   ),
 );
 
+// Switch and partition library per user account
+if (typeof window !== "undefined") {
+  window.addEventListener("reson8-user-changed", (event: Event) => {
+    const customEvent = event as CustomEvent<{ userId: string | null }>;
+    const userId = customEvent.detail?.userId;
+    const storageKey = userId ? `reson8-library-${userId}` : "reson8-library-guest";
+
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.state) {
+          useLibrary.setState({
+            playlists: parsed.state.playlists || [],
+            liked: parsed.state.liked || [],
+            recent: parsed.state.recent || [],
+            followedArtists: parsed.state.followedArtists || [],
+            savedAlbums: parsed.state.savedAlbums || [],
+          });
+          return;
+        }
+      }
+
+      // If user is new, provide a taste-tailored welcome playlist
+      if (userId) {
+        const starterId = `welcome_${userId}`;
+        useLibrary.setState({
+          playlists: [
+            {
+              id: starterId,
+              name: "My Reson8 Favorites",
+              description: "Your personal Google account collection",
+              cover: coverForSeed(starterId),
+              trackIds: ["t1", "t2", "t8"],
+              createdAt: Date.now(),
+            },
+          ],
+          liked: ["t1", "t8"],
+          recent: ["t1"],
+          followedArtists: [],
+          savedAlbums: [],
+        });
+      } else {
+        useLibrary.setState({
+          playlists: [],
+          liked: [],
+          recent: [],
+          followedArtists: [],
+          savedAlbums: [],
+        });
+      }
+    } catch (e) {
+      console.warn("Failed to partition user library:", e);
+    }
+  });
+
+  // Keep active user's partition synchronized on library updates
+  useLibrary.subscribe((state) => {
+    try {
+      const authRaw = localStorage.getItem("reson8-auth");
+      const currentUserId = authRaw ? JSON.parse(authRaw)?.state?.currentUser?.id : null;
+      const storageKey = currentUserId ? `reson8-library-${currentUserId}` : "reson8-library-guest";
+      localStorage.setItem(storageKey, JSON.stringify({ state }));
+    } catch {
+      // Ignore quota errors
+    }
+  });
+}
+
 /**
  * Persisted state is only read on the client, so gate anything that renders
  * saved data until after hydration to keep SSR markup stable.
@@ -125,7 +194,22 @@ export const useLibrary = create<LibraryState>()(
 export function useLibraryHydrated() {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
-    useLibrary.persist.rehydrate();
+    try {
+      const authRaw = localStorage.getItem("reson8-auth");
+      const currentUserId = authRaw ? JSON.parse(authRaw)?.state?.currentUser?.id : null;
+      const storageKey = currentUserId ? `reson8-library-${currentUserId}` : "reson8-library-guest";
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.state) {
+          useLibrary.setState(parsed.state);
+        }
+      } else {
+        useLibrary.persist.rehydrate();
+      }
+    } catch {
+      useLibrary.persist.rehydrate();
+    }
     setHydrated(true);
   }, []);
   return hydrated;

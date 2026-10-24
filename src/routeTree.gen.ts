@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GoogleCallbackRouteImport } from './routes/google-callback'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as LikedRouteImport } from './routes/liked'
 import { Route as SearchRouteImport } from './routes/search'
@@ -21,6 +22,11 @@ import { Route as PlaylistIdRouteImport } from './routes/playlist.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoogleCallbackRoute = GoogleCallbackRouteImport.update({
+  id: '/google-callback',
+  path: '/google-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -61,6 +67,7 @@ const PlaylistIdRoute = PlaylistIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/google-callback': typeof GoogleCallbackRoute
   '/library': typeof LibraryRoute
   '/liked': typeof LikedRoute
   '/search': typeof SearchRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/google-callback': typeof GoogleCallbackRoute
   '/library': typeof LibraryRoute
   '/liked': typeof LikedRoute
   '/search': typeof SearchRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/google-callback': typeof GoogleCallbackRoute
   '/library': typeof LibraryRoute
   '/liked': typeof LikedRoute
   '/search': typeof SearchRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/google-callback'
     | '/library'
     | '/liked'
     | '/search'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/google-callback'
     | '/library'
     | '/liked'
     | '/search'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/google-callback'
     | '/library'
     | '/liked'
     | '/search'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GoogleCallbackRoute: typeof GoogleCallbackRoute
   LibraryRoute: typeof LibraryRoute
   LikedRoute: typeof LikedRoute
   SearchRoute: typeof SearchRoute
@@ -141,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/google-callback': {
+      id: '/google-callback'
+      path: '/google-callback'
+      fullPath: '/google-callback'
+      preLoaderRoute: typeof GoogleCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GoogleCallbackRoute: GoogleCallbackRoute,
   LibraryRoute: LibraryRoute,
   LikedRoute: LikedRoute,
   SearchRoute: SearchRoute,
