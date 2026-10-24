@@ -1,6 +1,5 @@
 // src/lib/local-music-db.ts
 import type { Track, Playlist } from "@/lib/mock-library";
-import * as mm from "music-metadata-browser";
 
 export interface StoredLocalTrack extends Track {
   fileName: string;
@@ -330,7 +329,15 @@ export interface ExtractedMetadata {
 export async function parseAudioMetadata(file: File): Promise<ExtractedMetadata> {
   const fallback = cleanFilenameToTrackInfo(file.name);
   try {
-    const metadata = await mm.parseBlob(file, { duration: true, skipCovers: false });
+    if (typeof window === "undefined") {
+      throw new Error("Music metadata parsing is only available in the browser.");
+    }
+
+    const mm = await import("music-metadata-browser");
+    const metadata = await mm.parseBlob(file, {
+      duration: true,
+      skipCovers: false,
+    });
     const { common, format } = metadata;
 
     let cover: string | undefined;
