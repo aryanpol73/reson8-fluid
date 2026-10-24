@@ -64,11 +64,16 @@ function GoogleCallback() {
           throw new Error("Google did not return an email address.");
         }
 
+        const pendingTaste = (typeof localStorage !== "undefined"
+          ? (localStorage.getItem("reson8-pending-vibe") as any)
+          : null) || undefined;
+
         const account = signInWithGoogle({
           id: `google_${info.sub}`,
           name: info.name || info.email.split("@")[0],
           email: info.email,
           avatar: info.picture,
+          musicTaste: pendingTaste,
         });
 
         toast.success(`Welcome to Reson8, ${account.name}!`);
